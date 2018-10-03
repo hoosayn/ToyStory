@@ -1,4 +1,4 @@
-package org.ngo.registration;
+package org.ngo.registration.entity;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
