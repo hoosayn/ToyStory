@@ -31,4 +31,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('org.springframework.security:spring-security-test')
+	compileOnly('org.projectlombok:lombok')
+	compile files('libs/mssql-jdbc-6.4.0.jre8.jar')
+	compile files('libs/liquibase-core-3.6.2.jar')
 }
