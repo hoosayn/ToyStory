@@ -1,4 +1,4 @@
-package org.ngo.registration.entity.entity;
+package org.ngo.registration.entity;
 
 import lombok.Data;
 
@@ -27,3 +27,4 @@ public class User {
     private String password;
 
 }
+
