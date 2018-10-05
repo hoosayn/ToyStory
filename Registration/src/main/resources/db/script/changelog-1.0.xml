@@ -14,4 +14,10 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet author="ashaikh" id="changelog-1.0.1">
+        <addColumn tableName="NGO_USER">
+            <column name="password" type="text" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

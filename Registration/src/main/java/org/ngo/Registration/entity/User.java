@@ -1,6 +1,9 @@
 package org.ngo.registration.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.sql.DataSourceDefinition;
 import javax.persistence.*;
@@ -10,7 +13,8 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="NGO_USER")
-@Data
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -20,8 +24,9 @@ public class User {
 
     @NotNull
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
-    @Column(name = "USER_NAME")
+    @Column(name = "USERNAME")
     private String username;
+
 
     @Size(min = 9, max = 99)
     private String password;
