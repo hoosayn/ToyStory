@@ -1,4 +1,4 @@
-package org.ngo.registration;
+package org.ngo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,9 +1,13 @@
-package org.ngo.registration.core;
+package org.ngo.core.services;
 
-import org.ngo.registration.entity.User;
+import org.ngo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    Optional<User> findByUsername(String username);
 }
