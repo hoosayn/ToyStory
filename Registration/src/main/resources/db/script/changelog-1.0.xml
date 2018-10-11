@@ -20,4 +20,11 @@
             <column name="password" type="text" />
         </addColumn>
     </changeSet>
+    <changeSet author="ashaikh" id="changelog-1.0.2">
+        <addColumn tableName="NGO_USER">
+            <column name="title" type="text" />
+            <column name="firstName" type="text" />
+            <column name="lastName" type="text" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

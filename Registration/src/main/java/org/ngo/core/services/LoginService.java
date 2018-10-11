@@ -19,9 +19,9 @@ public class LoginService {
         this.userService = userService;
     }
 
-    public Optional<Profile> login(User credentials){
-        return userService.loadUserByUsername(credentials.getUsername())
-                .filter()
-
-    }
+//    public Optional<Profile> login(User credentials){
+//        return userService.loadUserByUsername(credentials.getUsername())
+//                .filter()
+//
+//    }
 }

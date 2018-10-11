@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -26,9 +27,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
 
     public SecurityConfiguration(RestAuthenticationEntryPoint restAuthenticationEntryPoint){
@@ -48,19 +52,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .antMatchers("**/registration/**").permitAll()
 //                .antMatchers("/user/profile").authenticated();
 
-        http.csrf().ignoringAntMatchers("/login");
+
 
         http.authorizeRequests()
-                .antMatchers("/login")
-                .permitAll()
-                .antMatchers("/**/*")
-                .denyAll();
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/test").authenticated()
+                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
+                .authenticated().and().csrf().disable().formLogin()
+                .defaultSuccessUrl("/home");
+
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
     @Override
     public void  configure(WebSecurity web){

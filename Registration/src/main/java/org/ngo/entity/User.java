@@ -33,16 +33,16 @@ public class User implements UserDetails {
     private String username;
 
 
-    @Size(min = 9, max = 99)
+    @Size(min = 1, max = 99)
     private String password;
 
     @Column
     private String title;
 
-    @Column
+    @Column(name = "firstname")
     private String firstName;
 
-    @Column
+    @Column(name = "lastname")
     private String lastName;
 
     @Transient

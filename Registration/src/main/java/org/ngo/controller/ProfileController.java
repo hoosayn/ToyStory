@@ -1,3 +1,4 @@
+/*
 package org.ngo.controller;
 
 import org.ngo.core.services.ProfileService;
@@ -28,3 +29,4 @@ public class ProfileController {
                 .orElseThrow(() -> new ProfileNotFoundException(username));
     }
 }
+*/

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 //@RequestMapping("/api/registration")
 public class UserRegistrationController {
@@ -22,9 +24,11 @@ public class UserRegistrationController {
     public String test(){
         return "done!";
     }
-    @PostMapping("/save")
-    public ResponseEntity save(@RequestBody User user ){
+
+    @PostMapping("/registration")
+    public HttpServletResponse save(@RequestBody User user, HttpServletResponse response){
         User respUser = userService.save(user);
-        return ResponseEntity.ok().body(respUser);
+        response.setHeader("Token","testToken");
+        return response;
     }
 }
