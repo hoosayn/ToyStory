@@ -1,11 +1,15 @@
 package org.ngo.configuration.security;
 
 import org.ngo.configuration.security.handler.RestAuthenticationEntryPoint;
+import org.ngo.core.repository.UserRepository;
 import org.ngo.core.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,8 +21,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
-//@EnableAutoConfiguration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableAutoConfiguration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
@@ -44,25 +48,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.httpBasic().authenticationEntryPoint(restAuthenticationEntryPoint)
-//                .and().csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/").permitAll()
-//                .antMatchers("/login").permitAll()
-//                .antMatchers("**/registration/**").permitAll()
-//                .antMatchers("/user/profile").authenticated();
 
-
-
+        http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers("/test").authenticated()
-                .antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
-                .defaultSuccessUrl("/home");
-
+                .antMatchers("**/members/**").authenticated()
+                .anyRequest().permitAll()
+                .and()
+                .formLogin().permitAll();
     }
 
 

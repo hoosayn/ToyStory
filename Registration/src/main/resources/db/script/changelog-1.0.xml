@@ -6,7 +6,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
     <changeSet author="ashaikh" id="changelog-1.0">
         <createTable tableName="NGO_USER">
-            <column name="USER_ID" type="bigint" autoIncrement="true">
+            <column name="PK_USER_ID" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="USERNAME" type="text">
@@ -17,14 +17,64 @@
 
     <changeSet author="ashaikh" id="changelog-1.0.1">
         <addColumn tableName="NGO_USER">
-            <column name="password" type="text" />
+            <column name="PASSWORD" type="text" />
         </addColumn>
     </changeSet>
     <changeSet author="ashaikh" id="changelog-1.0.2">
         <addColumn tableName="NGO_USER">
-            <column name="title" type="text" />
-            <column name="firstName" type="text" />
-            <column name="lastName" type="text" />
+            <column name="TITLE" type="text" />
+            <column name="FIRSTNAME" type="text" />
+            <column name="LASTNAME" type="text" />
         </addColumn>
     </changeSet>
+    <changeSet id="changelog-1.0.3" author="ashaikh">
+        <createTable tableName="NGO_ROLE">
+            <column name="PK_ROLE_ID" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="ROLECODE" type="text">
+                <constraints nullable="false" unique="false"></constraints>
+            </column>
+            <column name="ROLENAME" type="text">
+                <constraints nullable="false" unique="false"></constraints>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="changelog-1.0.5" author="ashaikh">
+        <modifyColumn tableName="NGO_ROLE">
+            <column name="ROLECODE">
+                <constraints unique="true"></constraints>
+            </column>
+            <column name="ROLENAME">
+                <constraints unique="true"></constraints>
+            </column>
+        </modifyColumn>
+    </changeSet>
+   <changeSet id="changelog-1.0.4" author="ashaikh">
+        <createTable tableName="NGO_USER_ROLE">
+            <column name="PK_USER_ROLE_ID" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="FK_USER_ID" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FK_ROLE_ID" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="FK_ROLE_ID"
+                                 baseTableName="NGO_USER_ROLE"
+                                 constraintName="NGO_USER_ROLE_FK_ROLE_ID_NGO_ROLE_PK_ROLE_ID"
+                                 referencedTableName="NGO_ROLE"
+                                 referencedColumnNames="PK_ROLE_ID"/>
+
+        <addForeignKeyConstraint baseColumnNames="FK_USER_ID"
+                                 baseTableName="NGO_USER_ROLE"
+                                 constraintName="NGO_USER_ROLE_FK_ROLE_ID_NGO_USER_PK_USER_ID"
+                                 referencedTableName="NGO_USER"
+                                 referencedColumnNames="PK_USER_ID"/>
+    </changeSet>
+
+
 </databaseChangeLog>
