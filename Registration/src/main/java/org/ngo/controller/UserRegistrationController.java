@@ -1,10 +1,12 @@
 package org.ngo.controller;
 
+import jdk.nashorn.internal.runtime.options.Option;
 import org.ngo.core.repository.RoleRepository;
 import org.ngo.core.services.JwtService;
 import org.ngo.core.services.UserService;
 import org.ngo.entity.Role;
 import org.ngo.entity.User;
+import org.ngo.expections.NgoExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,15 +18,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -64,13 +65,20 @@ public class UserRegistrationController {
 
     @PostMapping("/registration")
     public String save(@RequestBody User user, HttpServletResponse response){
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList( roleRepository.findByRolename("ADMIN")));
+        Collection<Role> roles = roleRepository.findByRolecode(
+                Arrays.asList(user.getRoleType().split(",")))
+                .orElseThrow(() -> new NgoExceptions("Role Not Found"));
+
+        user.setRoles(roles);
         User respUser = userService.save(user);
-        /*respUser.getRoles().stream().forEach(r -> roleRepository.addRolesToUser(respUser.getId(),
-                r.getId()));*/
+        respUser.getRoles().stream().forEach(r -> roleRepository.addRolesToUser(respUser.getId(),
+                r.getId()));
         response.setHeader("Token", jwtService.generateToken(user));
         return "postcallreturnstoken";
+
+//        {"id":"2","username":"asif2","password":"a","title":"Mr.","firstName":"asif","lastName":"shaikh"}  json request to register
     }
 
 
@@ -82,4 +90,11 @@ public class UserRegistrationController {
         return "Hello Admin";
     }
 
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null){
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+    }
 }

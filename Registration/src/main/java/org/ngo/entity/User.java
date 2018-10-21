@@ -42,11 +42,15 @@ public class User implements UserDetails {
     private String password;
 
     @Column
+    private String roleType;
+
+    @Column
     private String title;
 
     @Column(name = "FIRSTNAME")
     private String firstName;
 
+    @NotNull
     @Column(name = "LASTNAME")
     private String lastName;
 
