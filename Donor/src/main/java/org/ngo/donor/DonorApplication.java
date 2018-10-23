@@ -1,5 +1,6 @@
 package org.ngo.donor;
 
+import org.ngo.donor.cacheservice.MessageCacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,21 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Processor;
 
 @SpringBootApplication
-@EnableBinding(Process.class)
+@EnableBinding(Processor.class)
 public class DonorApplication {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DonorApplication.class);
 
+	@Autowired
+	MessageCacheService messageCacheService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(DonorApplication.class, args);
+	}
+
+	@StreamListener(Processor.INPUT)
+	public void receiveToken(String token){
+		messageCacheService.process(token);
 	}
 
 }

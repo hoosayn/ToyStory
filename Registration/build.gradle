@@ -41,9 +41,11 @@ dependencies {
 	compile files('libs/liquibase-core-3.6.2.jar')
 	compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	implementation('org.springframework.cloud:spring-cloud-stream')
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('org.springframework.cloud:spring-cloud-stream-test-support')
 	implementation('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
+	implementation('org.springframework.cloud:spring-cloud-starter-sleuth')
+    implementation('org.springframework.cloud:spring-cloud-starter')
+    implementation('org.springframework.cloud:spring-cloud-config-server')
 
 }
 

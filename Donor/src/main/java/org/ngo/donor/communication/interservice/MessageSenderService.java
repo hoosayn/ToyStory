@@ -14,7 +14,7 @@ public class MessageSenderService {
     public boolean send(String token){
 
         return this.source.output().send(MessageBuilder.withPayload(token).build());
-        
+
     }
 
 }
