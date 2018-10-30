@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet author="ashaikh" id="changelog-1.0.0">
+        <createTable tableName="NGO_DONOR">
+            <column name="PK_DONOR_ID" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USERNAME" type="text">
+                <constraints nullable="false" primaryKey="false" unique="false"/>
+            </column>
+            <column name="ROLE" type="text">
+                <constraints nullable="false" primaryKey="false" unique="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="changelog-1.0.1" author="ashaikh">
+        <addColumn tableName="NGO_DONOR">
+            <column name="DONATED_COUNT" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="changelog-1.0.2" author="ashaikh">
+        <modifyColumn tableName="NGO_DONOR">
+            <column defaultValue="0" name="DONATED_COUNT"></column>
+        </modifyColumn>
+    </changeSet>
+</databaseChangeLog>

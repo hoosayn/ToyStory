@@ -27,14 +27,14 @@ public class User implements UserDetails {
 
     @NotNull
     @Pattern(regexp = "^[a-zA-Z0-9]*$")
-    @Column(name = "USERNAME")
+    @Column(unique = true, name = "USERNAME")
     private String username;
 
 
     @Size(min = 1, max = 99)
     private String password;
 
-    @Column
+    @Column(name = "ROLETYPE")
     private String roleType;
 
     @Column

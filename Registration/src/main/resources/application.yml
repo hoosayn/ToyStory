@@ -1,18 +1,16 @@
-spring:
-  application:
-    name: Registration
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-  cloud:
-    stream:
-      bindings:
-        output:
-          destination: token-out
-        input:
-          destination: token-in
-      rabbit:
-        bindings:
-          input:
-            consumer:
-              exchangeType: direct
+#spring:
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#  cloud:
+#    stream:
+#      bindings:
+#        output:
+#          destination: token-out
+#        input:
+#          destination: token-in
+#      rabbit:
+#        bindings:
+#          input:
+#            consumer:
+#              exchangeType: direct

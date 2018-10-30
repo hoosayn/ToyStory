@@ -1,0 +1,21 @@
+# Properties active for ALL profiles:
+---
+spring:
+  application:
+    name: registration
+  cloud:
+    config:
+      uri: http://localhost:7989
+
+server:
+  port: 8001
+
+
+## Properties activated if "northamerica" is the active profile:
+#---
+#spring:
+#  profiles:
+#    active: northamerica
+#  cloud:
+#    config:
+#      uri: http://localhost:7989

@@ -7,7 +7,10 @@ import org.ngo.registration.core.services.UserService;
 import org.ngo.registration.entity.Role;
 import org.ngo.registration.entity.User;
 import org.ngo.registration.expections.NgoExceptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +31,8 @@ import java.util.*;
 @RequestMapping("/api")
 public class UserRegistrationController {
 
+    Logger LOGGER = LoggerFactory.getLogger(UserRegistrationController.class);
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -38,6 +43,8 @@ public class UserRegistrationController {
     private RoleRepository roleRepository;
     @Autowired
     private MessageSenderService messageSenderService;
+
+    @Value("${lucky-word}") String luckyWord;
 
     @GetMapping(value = "/")
     public ResponseEntity<String> registrationFormSubmit(HttpServletResponse response){
@@ -79,7 +86,7 @@ public class UserRegistrationController {
         response.setHeader("Token", user.getToken());
         return "postcallreturnstoken";
 
-//        {"id":"2","username":"asif2","password":"a","title":"Mr.","firstName":"asif","lastName":"shaikh"}  json request to register
+//        {"id":"1","username":"asif1","password":"a","roleType":"101","title":"Mr.","firstName":"asif","lastName":"shaikh"}  json request to register
     }
 
 
@@ -87,7 +94,10 @@ public class UserRegistrationController {
     @GetMapping("/members/admin")
     public String securedHello(HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        response.setHeader("Token", jwtService.generateToken(userService.loadUserByUsername(auth.getName())));
+        String jjwtToken = jwtService.generateToken(userService.loadUserByUsername(auth.getName()));
+        response.setHeader("Token", jjwtToken);
+        LOGGER.info("generate token {} ", jjwtToken);
+        messageSenderService.send(jjwtToken);
         return "Hello Admin";
     }
 
@@ -97,5 +107,10 @@ public class UserRegistrationController {
         if (auth != null){
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
+    }
+
+    @GetMapping("/lucky-word")
+    public String showLuckyWord(){
+        return "The lucky word is : "+ luckyWord;
     }
 }

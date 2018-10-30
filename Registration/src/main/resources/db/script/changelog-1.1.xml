@@ -4,8 +4,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
-    <changeSet author="ashaikh" id="changelog-1.0">
-        <sqlFile encoding="utf8" path="db/data/role.sql"
+    <changeSet author="ashaikh" id="changelog-1.0.1">
+        <sqlFile encoding="utf8" path="db/data/insert.sql"
                  splitStatements="true" stripComments="true" />
     </changeSet>
 </databaseChangeLog>

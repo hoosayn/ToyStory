@@ -76,5 +76,9 @@
                                  referencedColumnNames="PK_USER_ID"/>
     </changeSet>
 
-
+    <changeSet author="ashaikh" id="changelog-1.0.6">
+        <addColumn tableName="NGO_USER">
+            <column name="ROLETYPE" type="text" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
