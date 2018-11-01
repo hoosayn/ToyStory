@@ -7,11 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/donor/api/v1.0")
 public class DonorController {
     private Logger LOGGER = LoggerFactory.getLogger(DonorController.class);
 
@@ -19,17 +20,35 @@ public class DonorController {
     @Autowired
     private DonorRepository donorRepository;
 
-    @GetMapping("/admin")
-    public String test(){
-        return "success access";
+    @GetMapping("/home/{userid}")
+    public String home(@PathVariable String userid){
+
+        LOGGER.info("loading home page for userid {}.",userid);
+        return "Hello "+donorRepository.findById(Long.valueOf(userid))
+                .orElseThrow(() -> new NgoExceptions("no record fetched")).getSub() +"!";
     }
 
-    @Cacheable(value = "tokens", key = "#userid", unless = "#result.donated_count < 1")
+    @PutMapping("/donate/editAddress/{userid}")
+    public String editAddress(@PathVariable String userid, @PathVariable String address){
+
+        donorRepository.findById(Long.valueOf(userid))
+                .orElseThrow(() -> new NgoExceptions("user not found"))
+                .setAddress(address);
+        return "Address update successfull";
+    }
+
+    @PostMapping("/donate")
+    public Donor donate(@RequestBody Donor donor){
+
+        donorRepository.save(donor);
+        return donor;
+    }
+
+    @Cacheable(value = "tokens", key = "#userid", unless = "#result.count < 1")
     @GetMapping("/public/{userid}")
     public Donor getDonors(@PathVariable String userid){
         LOGGER.info("fetching donor with id : {}.", userid);
-        return donorRepository.findById(Long.valueOf(userid))
-                .orElseThrow(() -> new NgoExceptions("donor not found"));
+        return donorRepository.findById(Long.valueOf(userid)).get();
     }
 
 }

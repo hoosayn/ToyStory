@@ -47,6 +47,9 @@ public class User implements UserDetails {
     @Column(name = "LASTNAME")
     private String lastName;
 
+    @NotNull
+    @Column(name = "ADDRESS")
+    private String address;
 
 
     @ManyToMany(fetch = FetchType.EAGER)

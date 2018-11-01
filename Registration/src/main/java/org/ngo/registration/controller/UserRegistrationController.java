@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/registration/api/v1.0")
 public class UserRegistrationController {
 
     Logger LOGGER = LoggerFactory.getLogger(UserRegistrationController.class);
@@ -90,15 +90,16 @@ public class UserRegistrationController {
     }
 
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
-    @GetMapping("/members/admin")
-    public String securedHello(HttpServletResponse response) {
+    @PreAuthorize("hasAnyRole('ADMIN','DONOR')")
+    @GetMapping("/members")
+    public User securedHello(@PathVariable String role, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String jjwtToken = jwtService.generateToken(userService.loadUserByUsername(auth.getName()));
-        response.setHeader("Token", jjwtToken);
+        User user = userService.loadUserByUsername(auth.getName());
+        String jjwtToken = jwtService.generateToken(user);
+        response.setHeader("Authorization", jjwtToken);
         LOGGER.info("generate token {} ", jjwtToken);
         messageSenderService.send(jjwtToken);
-        return "Hello Admin";
+        return user;
     }
 
     @GetMapping("/logout")

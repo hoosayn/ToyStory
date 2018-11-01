@@ -29,4 +29,9 @@
             <column defaultValue="0" name="DONATED_COUNT"></column>
         </modifyColumn>
     </changeSet>
+    <changeSet id="changelog-1.0.3" author="ashaikh">
+        <addColumn tableName="NGO_DONOR">
+            <column name="ADDRESS" type="text"></column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

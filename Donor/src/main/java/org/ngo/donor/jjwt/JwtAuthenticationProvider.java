@@ -39,8 +39,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             Optional<Donor> donorFromDB = donorRepository.findById(donor.getUserid());
             if(!donorFromDB.isPresent()){
                 donor.setCount(1L);
+                donorRepository.save(donor);
             }
-            donorFromDB.orElse(donorRepository.save(donor));
             return new UserProfile(donor.getSub(), donor.getRole());
         }catch (Exception e){
             throw new NgoExceptions("Jwt Authentication failed");

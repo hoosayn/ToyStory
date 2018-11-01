@@ -5,12 +5,15 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Table(name="NGO_DONOR")
 @Getter
 @Setter
-public class Donor {
+public class Donor implements Serializable {
+
+    private static final long serialVersionUID = 7156526077883281623L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +31,10 @@ public class Donor {
     @NotNull
     @Column(name = "DONATED_COUNT")
     private Long count;
+
+    @NotNull
+    @Column(name = "ADDRESS")
+    private String address;
 
     @Transient
     private String exp;

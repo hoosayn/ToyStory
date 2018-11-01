@@ -81,4 +81,9 @@
             <column name="ROLETYPE" type="text" />
         </addColumn>
     </changeSet>
+    <changeSet id="changelog-1.0.7" author="ashaikh">
+        <addColumn tableName="NGO_USER">
+            <column name="ADDRESS" type="text"></column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
