@@ -1,5 +1,9 @@
 package org.ngo.donor.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.ngo.donor.entity.Donor;
 import org.ngo.donor.exception.NgoExceptions;
 import org.ngo.donor.repository.DonorRepository;
@@ -9,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/donor/api/v1.0")
+@RequestMapping(value = "/donor/api/v1.0", produces = "application/json")
+@Api(value="donorservice", description = "this is a service for donating toys to underprivileged")
 public class DonorController {
     private Logger LOGGER = LoggerFactory.getLogger(DonorController.class);
 
@@ -29,6 +32,14 @@ public class DonorController {
     }
 
     @PutMapping("/donate/editAddress/{userid}")
+    @ApiOperation(value = "Update the Donor Address", notes = "Update the Donor Address",
+                    response = String.class)
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Successfully updated the Donor Address"),
+        @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+        @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+        @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
     public String editAddress(@PathVariable String userid, @PathVariable String address){
 
         donorRepository.findById(Long.valueOf(userid))

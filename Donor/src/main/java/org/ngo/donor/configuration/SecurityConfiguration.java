@@ -38,11 +38,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/login")
-                .permitAll()
                 .antMatchers("**/public/**")
                 .permitAll()
-                .antMatchers("/home","/donate")
+                .antMatchers("/home")
+                .hasAuthority("ROLE_DONOR")
+                .antMatchers("/donate")
                 .hasAuthority("ROLE_DONOR")
                 .and()
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

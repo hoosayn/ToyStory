@@ -34,4 +34,9 @@
             <column name="ADDRESS" type="text"></column>
         </addColumn>
     </changeSet>
+    <changeSet id="changelog-1.0.4" author="ashaikh">
+        <addColumn tableName="NGO_DONOR">
+            <column name="FIRSTNAME" type="text"></column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

@@ -22,7 +22,7 @@ public class Donor implements Serializable {
 
     @NotNull
     @Column(unique = true, name = "USERNAME")
-    private String sub;
+    private String username;
 
     @NotNull
     @Column(name = "ROLE")
@@ -31,6 +31,10 @@ public class Donor implements Serializable {
     @NotNull
     @Column(name = "DONATED_COUNT")
     private Long count;
+
+    @NotNull
+    @Column(name = "FIRSTNAME")
+    private String firstname;
 
     @NotNull
     @Column(name = "ADDRESS")
@@ -42,4 +46,6 @@ public class Donor implements Serializable {
     @Transient
     private String iss;
 
+    @Transient
+    private String sub;
 }

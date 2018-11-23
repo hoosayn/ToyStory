@@ -92,7 +92,7 @@ public class UserRegistrationController {
 
     @PreAuthorize("hasAnyRole('ADMIN','DONOR')")
     @GetMapping("/members")
-    public User securedHello(@PathVariable String role, HttpServletResponse response) {
+    public User securedHello(HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.loadUserByUsername(auth.getName());
         String jjwtToken = jwtService.generateToken(user);

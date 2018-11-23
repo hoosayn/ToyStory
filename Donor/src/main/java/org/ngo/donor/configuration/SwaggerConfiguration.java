@@ -23,7 +23,7 @@ public class SwaggerConfiguration extends WebMvcConfigurationSupport {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("org.ngo.donor.controller"))
-                .paths(regex("/api"))
+                .paths(regex("/donor.*"))
                 .build()
                 .apiInfo(metaData());
     }

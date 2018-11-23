@@ -23,6 +23,9 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+    springCloudVersion = 'Finchley.SR1'
+}
 
 dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-actuator')
@@ -31,4 +34,21 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('org.springframework.security:spring-security-test')
+	compileOnly('org.projectlombok:lombok')
+	compile files('libs/mssql-jdbc-6.4.0.jre8.jar')
+	compile files('libs/liquibase-core-3.6.2.jar')
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.5'
+    implementation('org.springframework.cloud:spring-cloud-stream')
+    testImplementation('org.springframework.cloud:spring-cloud-stream-test-support')
+    implementation('org.springframework.cloud:spring-cloud-starter-stream-rabbit')
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '2.0.1.RELEASE'
+    compile('io.springfox:springfox-swagger2:2.9.2')
+    compile ('io.springfox:springfox-swagger-ui:2.9.2')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
