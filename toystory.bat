@@ -9,9 +9,9 @@ ping 127.0.0.1 -n 30 > nul
 
 echo "creating db for each microservice..." 
 
-sqlcmd -S 127.0.0.1,7000 -U sa  -P Aa@123 -i"C:\PersonalProject\ToyStory\db\dbsript_admin.sql"
-sqlcmd -S 127.0.0.1,8000 -U sa  -P Aa@123 -i"C:\PersonalProject\ToyStory\db\dbsript_registration.sql"
-sqlcmd -S 127.0.0.1,9000 -U sa  -P Aa@123 -i"C:\PersonalProject\ToyStory\db\dbsript_donor.sql"
+sqlcmd -S 127.0.0.1,7000 -U sa  -P Aa@123 -i"C:\PPro\ToyStory\db\dbsript_admin.sql"
+sqlcmd -S 127.0.0.1,8000 -U sa  -P Aa@123 -i"C:\PPro\ToyStory\db\dbsript_registration.sql"
+sqlcmd -S 127.0.0.1,9000 -U sa  -P Aa@123 -i"C:\PPro\ToyStory\db\dbsript_donor.sql"
 
 echo "creation of db is finished ..." 
 
