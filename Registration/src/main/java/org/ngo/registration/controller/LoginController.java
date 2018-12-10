@@ -1,3 +1,4 @@
+/*
 package org.ngo.registration.controller;
 
 import org.springframework.web.bind.annotation.*;
@@ -41,3 +42,4 @@ public class LoginController {
 //                .orElseThrow(() -> new FailedToLoginException(credentials.getUsername()));
 //    }
 }
+*/

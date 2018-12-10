@@ -4,6 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.ngo.donor.entity.Donor;
 import org.ngo.donor.exception.NgoExceptions;
 import org.ngo.donor.repository.DonorRepository;
@@ -11,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,6 +29,14 @@ public class DonorController {
     @Autowired
     private DonorRepository donorRepository;
 
+    @GetMapping(value = "/")
+    public ResponseEntity<String> registrationFormSubmit(HttpServletResponse response){
+        HttpHeaders  httpHeaders = new HttpHeaders();
+        httpHeaders.set("asif","shaikh");
+
+        return new ResponseEntity<>("hello", httpHeaders, HttpStatus.CREATED);
+    }
+    
     @GetMapping("/home/{userid}")
     public String home(@PathVariable String userid){
 

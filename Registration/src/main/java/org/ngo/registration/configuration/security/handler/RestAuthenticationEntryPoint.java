@@ -17,13 +17,13 @@ import java.io.IOException;
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        Throwable cuasException = authException.getCause();
+        Throwable causeException = authException.getCause();
         response.setContentType("application/json");
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         TheToyStoryException theToyStoryException;
 
-        if(cuasException instanceof TheToyStoryException) {
-            theToyStoryException = (TheToyStoryException) cuasException;
+        if(causeException instanceof TheToyStoryException) {
+            theToyStoryException = (TheToyStoryException) causeException;
         }else {
             theToyStoryException = new TheToyStoryException(TheToyStoryUtils.Constants.Errors.WRONG_USERNAME_OR_PASSWORD);
         }

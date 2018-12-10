@@ -17,5 +17,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value="select rolename from ngo_role  where PK_ROLE_ID in (select FK_ROLE_ID from NGO_USER_ROLE where FK_USER_ID in (select pk_user_id from NGO_USER where username = :username))", nativeQuery = true)
     Set<String> getRoles(@Param("username") String username);
 
-
 }

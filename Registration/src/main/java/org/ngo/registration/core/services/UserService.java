@@ -31,6 +31,7 @@ public class UserService implements UserDetailsService {
     PasswordEncoder passwordEncoder;
 
 
+    /*the username and password is checked by spring security behind the scene */
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)

@@ -62,7 +62,7 @@ public class JwtService {
        return Jwts.builder()
                .setClaims(claims)
                .setIssuer(ISSUER)
-               .signWith(SignatureAlgorithm.HS256, secretKeyProvider.secreteKey())
+               .signWith(SignatureAlgorithm.HS256, SecretKeyProvider.getInstance().byteSecretKey)
                .compact();
     }
 }
