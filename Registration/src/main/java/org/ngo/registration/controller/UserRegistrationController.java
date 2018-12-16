@@ -65,11 +65,11 @@ public class UserRegistrationController {
     }
 
     @GetMapping("/test")
-    public String test(HttpServletResponse response){
-        User user = new User();
+    public String test(HttpServletRequest request, HttpServletResponse response){
+        /*User user = new User();
         user.setUsername("asif");
-        response.setHeader("Token", jwtService.generateToken(user));
-
+        response.setHeader("Token", jwtService.generateToken(user));*/
+    	
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
         boolean authorized = authorities.contains(new SimpleGrantedAuthority("ADMIN"));
@@ -113,13 +113,16 @@ public class UserRegistrationController {
 
     @GetMapping("/members/common")
     public String securedCommon(HttpServletRequest request, HttpServletResponse response) {
+    	
+    	 System.out.println("cookies length : "+request.getCookies().length);
+    	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.loadUserByUsername(auth.getName());
         LOGGER.info("token : "+user.getToken());
         return "logged in user..........";
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','DONOR')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/members/roles")
     public User securedHello(HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -1,6 +1,7 @@
 package org.ngo.registration.configuration.security;
 
 import org.ngo.registration.configuration.security.handler.RestAuthenticationEntryPoint;
+import org.ngo.registration.core.repository.RoleRepository;
 import org.ngo.registration.core.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -26,6 +27,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserService userService;
+    
+    @Autowired
+    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -50,9 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
         		.antMatchers("/registration","/login").permitAll()
 //                .antMatchers("**/members/**").authenticated()
-        		.antMatchers("**/members/**").authenticated()
+        		.antMatchers("/test","**/members/**").authenticated()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), userService, roleRepository))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), userService))
                 // this is to disable session creation in spring security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

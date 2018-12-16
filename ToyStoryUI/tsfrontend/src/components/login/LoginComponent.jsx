@@ -41,7 +41,7 @@ class LoginComponent extends React.Component {
             url: 'http://localhost:8765/registrationui/login',
             headers: {
                 'Content-Type': 'multipart/form-data',
-                "Access-Control-Allow-Origin": "*"
+                "Access-Control-Allow-Origin": "http://localhost:3000"
             },
             withCredentials: true,
             data: bodyFormData
@@ -52,10 +52,10 @@ class LoginComponent extends React.Component {
                 console.log(authHeader)
                 axios({
                     method: 'get',
-                    url: 'http://localhost:8765/registrationui/registration/api/v1.0/members/common',
+                    url: 'http://localhost:8765/registrationui/registration/api/v1.0/members/roles',
                     headers: {
                         'Content-Type': 'application/json;charset=UTF-8',
-                        "Access-Control-Allow-Origin": "*",
+                        "Access-Control-Allow-Origin": "http://localhost:3000",
                          "Authorization": authHeader
                     },
                     withCredentials: true

@@ -40,24 +40,25 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     
     private AuthenticationManager authenticationManager;
 
-   public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService) {
+   public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UserService userService, RoleRepository roleRepository) {
     this.authenticationManager = authenticationManager;
     this.userService = userService;
+    this.roleRepository = roleRepository;
         
      // By default, UsernamePasswordAuthenticationFilter listens to "/login" path. 
      		// In our case, we use "/auth". So, we need to override the defaults.
 //     		this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/our-own-path", "POST"));
     }
     
-    public JWTAuthenticationFilter(UserService userService) {
+    /*public JWTAuthenticationFilter(UserService userService) {
 		this.userService = userService;
-	}
+	}*/
 
 
 	@Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         /*User cred = new ObjectMapper()
-		        .readValue(request.getInputStream(), User.class);*/
+		        .readValue(request.getInputStream(), User.class);*/ 
 		return authenticationManager.authenticate(
 		        new UsernamePasswordAuthenticationToken(
 		        		request.getParameter("username"),
@@ -72,14 +73,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     	User user = (User)authResult.getPrincipal();
         String token = JWT.create()
                 .withSubject(((User)authResult.getPrincipal()).getUsername())
-//                .withClaim("role", roleRepository.findByRolecode(user.getRoleType()).get().getRolename())
-                .withClaim("role", "ADMIN")
+                .withClaim("role", roleRepository.findByRolecode(user.getRoleType()).get().getRolename())
                 .withExpiresAt(new Date(System.currentTimeMillis() + RegistrationConstant.EXPIRATION_TIME))
                 .sign(Algorithm.HMAC512(SecretKeyProvider.getInstance().byteSecretKey));
         user.setToken(token);
         response.addHeader(RegistrationConstant.HEADER_STRING, RegistrationConstant.TOKEN_PREFIX + token);
-//        response.addHeader("Set-Cookie", "access_token1=" + token +" asif");
-        Cookie cookie = new Cookie("Set-Cookie", "access_token2=" + token);   //asif
+        Cookie cookie = new Cookie(RegistrationConstant.COOKIE_SET_HEADER, RegistrationConstant.ACCESS_TOKEN+"=" + token);  
         response.addCookie(cookie);
     }
 }

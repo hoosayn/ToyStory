@@ -17,7 +17,9 @@ public class RelayTokenFilter extends ZuulFilter {
         Set<String> headers = (Set<String>) ctx.get("ignoredHeaders");
         // We need our JWT tokens relayed to resource servers
         headers.remove("authorization");
-
+        headers.remove("set-cookie");
+        headers.remove("cookie");
+        
         return null;
     }
 

@@ -20,10 +20,13 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -37,25 +40,28 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
    
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-       String header = request.getHeader(RegistrationConstant.HEADER_STRING);
-
-       if(header == null || !header.startsWith(RegistrationConstant.TOKEN_PREFIX)){
+    	
+       String token = Arrays.asList(request.getCookies()).stream()
+    		   .filter(item -> item.getName().equalsIgnoreCase(RegistrationConstant.COOKIE_SET_HEADER))
+    		   .findFirst().get().getValue().replaceAll(RegistrationConstant.ACCESS_TOKEN+"=", "");
+       if(token == null){
             chain.doFilter(request, response);
             return;
        }
 
-       UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
+       UsernamePasswordAuthenticationToken authentication = getAuthentication(request, token);
        SecurityContextHolder.getContext().setAuthentication(authentication);
        chain.doFilter(request, response);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(RegistrationConstant.HEADER_STRING);
+    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, String token) {
         if(token != null){
             //parse the token
-        	DecodedJWT decodeToken = JWT.require(Algorithm.HMAC512(SecretKeyProvider.getInstance().byteSecretKey))
+        	DecodedJWT decodeToken = null;
+        	decodeToken = JWT.require(Algorithm.HMAC512(SecretKeyProvider.getInstance().byteSecretKey))
             .build()
-            .verify(token.replace(RegistrationConstant.TOKEN_PREFIX, ""));
+            .verify(token);
+
         	String user = decodeToken.getSubject();
         	Claim claim = decodeToken.getClaim("role");
             if(user != null){
